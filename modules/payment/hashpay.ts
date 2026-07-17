@@ -143,7 +143,7 @@ export function createHashpayAdapter(config: HashpayConfig): PaymentProviderAdap
   return {
     async createPayment(input: CreatePaymentInput): Promise<CreatePaymentResult> {
       if (!config.baseUrl || !config.hashpayMerchantId || !config.hashpayPrivateKey) {
-        throw externalServiceError("HashPay 配置不完整", "HASHPAY_CONFIG_INCOMPLETE");
+        throw externalServiceError("HPay 配置不完整", "HASHPAY_CONFIG_INCOMPLETE");
       }
 
       const privateKey = await importSigningKey(config.hashpayPrivateKey);
@@ -190,14 +190,14 @@ export function createHashpayAdapter(config: HashpayConfig): PaymentProviderAdap
         json = (await response.json()) as HashpayResponse;
       } catch (err) {
         throw externalServiceError(
-          `HashPay 请求失败: ${err instanceof Error ? err.message : String(err)}`,
+          `HPay 请求失败: ${err instanceof Error ? err.message : String(err)}`,
           "HASHPAY_INVALID_RESPONSE"
         );
       }
 
       if (!json.checkoutUrl) {
         throw externalServiceError(
-          json.error?.key || "HashPay 创建支付失败",
+          json.error?.key || "HPay 创建支付失败",
           "HASHPAY_CREATE_PAYMENT_FAILED"
         );
       }
